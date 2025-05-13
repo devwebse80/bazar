@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazar Store - Todo en un solo lugar</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Estilos personalizados -->
+
+	
+	<style>
+	/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* Estilos para la navegación */
+/* Estilos para la barra de navegación moderna */
+.navbar {
+    transition: all 0.3s ease;
+    padding: 15px 0;
+    background-color: rgba(33, 37, 41, 0.95) !important;
+    backdrop-filter: blur(8px);
+}
+
+.navbar.scrolled {
+    padding: 10px 0;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 8px 15px !important;
+    margin: 0 5px;
+    position: relative;
+    color: rgba(255, 255, 255, 0.85) !important;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: white !important;
+}
+
+.nav-underline {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    width: 0;
+    height: 2px;
+    background-color: #0d6efd;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover .nav-underline {
+    width: calc(100% - 30px);
+}
+
+.nav-link.active {
+    color: white !important;
+}
+
+.nav-link.active .nav-underline {
+    width: calc(100% - 30px);
+}
+
+/************************************************************/
+
+
+/* Estilos para las tarjetas de categoría */
+.category-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px !important;
+    overflow: hidden;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.category-img-container {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+}
+
+.category-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.category-card:hover .category-img-container img {
+    transform: scale(1.05);
+}
+
+.category-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+}
+
+.card-body {
+    background-color: white;
+    z-index: 2;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 767.98px) {
+    .category-img-container {
+        height: 120px;
+    }
+    
+    .card-body {
+        padding: 1rem !important;
+    }
+    
+    h5 {
+        font-size: 1rem;
+    }
+    
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Ajustes específicos para pantallas muy pequeñas (320px) */
+@media (max-width: 320px) {
+    .category-img-container {
+        height: 100px;
+    }
+    
+    .card-body {
+        padding: 0.75rem !important;
+    }
+    
+    h5 {
+        font-size: 0.9rem;
+    }
+    
+    .text-muted.small {
+        font-size: 0.7rem;
+    }
+}
+
+
+
+
+
+
+
+
+/*
+section {
+    padding: 80px 0;
+}
+
+
+@media (max-width: 768px) {
+    section {
+        padding: 60px 0;
+    }
+    
+    .display-4 {
+        font-size: 2.5rem;
+    }
+}
+	
+*/
+
+/************************************************************/
+
+
+
+
+	/* Hero Section con Imagen de Fondo */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    background: url('f1.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-section h1 {
+    text-shadow: 3px 3px 3px rgba(1, 1, 1, 1.0);
+    animation: fadeInDown 1s ease;
+    font-size: 3.5rem;
+}
+
+.hero-section p {
+    text-shadow: 3px 3px 3px rgba(1, 1, 1, 1.0);
+    animation: fadeInUp 1s ease;
+    animation-delay: 0.3s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    font-size: 1.5rem;
+}
+
+.hero-section .btn {
+    animation: fadeInUp 1s ease;
+    animation-delay: 0.6s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/***************FOOTER*********************************************/
+.ig {
+        font-size: 1.0rem;
+        color:#FFFF00;
+    }
+
+
+/***************************************************************/
+
+
+/* Iconos en móviles */
+@media (max-width: 991.98px) {
+    .navbar {
+        background-color: #212529 !important;
+    }
+    
+    .nav-link {
+        padding: 10px 15px !important;
+        margin: 2px 0;
+    }
+    
+    .nav-underline {
+        display: none;
+    }
+    
+    .navbar-collapse {
+        padding: 15px 0;
+    }
+}
+
+
+
+
+
+
+
+
+/* NAVBAR MOBILE (320px - 480px) */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 10px 0;
+    }
+    
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    
+    .navbar-toggler {
+        padding: 0.15rem 0.35rem;
+    }
+    
+    .nav-link {
+        padding: 8px 5px !important;
+        font-size: 0.9rem;
+    }
+    
+    .navbar-collapse {
+        background-color: rgba(33, 37, 41, 0.98);
+        margin-top: 10px;
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+    
+    .btn-sm-block {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+/* HERO SECTION MOBILE (320px - 480px) */
+@media (max-width: 480px) {
+    .hero-section {
+        min-height: 400px;
+        padding: 80px 0;
+        background-position: 65% center;
+    }
+    
+
+    /*
+    .hero-title {
+        font-size: 1.0rem;
+        line-height: 1.3;
+        margin-bottom: 15px !important;
+    }
+*/
+
+.hero-section h1  {
+    
+    font-size: 3.5rem;
+}
+
+.hero-section p  {
+    
+    font-size: 1.5rem;
+}
+
+
+
+
+
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 25px !important;
+    }
+    
+    .hero-overlay {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+    
+    .btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+
+/* AJUSTES ESPECÍFICOS PARA 320px */
+@media (max-width: 320px) {
+
+/*
+    .hero-title h1 {
+        font-size: 1.0rem;
+    }
+*/
+.hero-section h1  {
+    
+    font-size: 2.5rem;
+}
+
+.hero-section p  {
+    
+    font-size: 1.5rem;
+}
+
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .navbar-brand span.bg-primary {
+        padding: 0.3rem !important;
+    }
+    
+    .btn {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+/* Ajustes específicos para pantallas pequeñas */
+@media (max-width: 480px) {
+    .product-card {
+        margin-bottom: 15px;
+    }
+    
+    .card-title {
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .card-text {
+        font-size: 0.8rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .text-muted {
+        font-size: 0.7rem;
+    }
+    
+    .text-warning {
+        font-size: 0.7rem;
+    }
+    
+    .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    h6.text-primary {
+        font-size: 0.9rem;
+    }
+    
+    del.small {
+        font-size: 0.7rem;
+    }
+    
+    .badge {
+        font-size: 0.6rem;
+        padding: 0.25em 0.4em;
+    }
+
+    .ig {
+        font-size: 1.0rem;
+        color:#FFFF00;
+    }
+}
+
+/* Ajustes extra para 320px */
+@media (max-width: 320px) {
+    .card-body {
+        padding: 0.75rem !important;
+    }
+    
+    .card-footer {
+        padding: 0.5rem !important;
+    }
+    
+    .card-title {
+        font-size: 0.8rem;
+    }
+    .ig {
+        font-size: 1.0rem;
+        color:#FFFF00;
+    }
+}
+
+
+
+
+
+
+/*
+
+@media (max-width: 768px) {
+    .hero-section {
+        height: auto;
+        min-height: 500px;
+        padding: 100px 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .d-flex {
+        flex-direction: column;
+        gap: 15px !important;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+	*/
+	
+     .color-option {
+            width: 32px;
+            height: 32px;
+            border: 2px solid #dee2e6;
+        }
+        .color-option:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .storage-option {
+            min-width: 60px;
+        }
+        .quantity-selector {
+            border-color: #dee2e6;
+        }
+        .product-image-container {
+            height: 100%;
+        }
+        .product-image {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+        .rating-star {
+            color: #ffc107;
+        }
+        .discount-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+	
+	</style>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</head>
+<body>
+    <!-- Barra de navegación -->
+    
+<!-- Barra de Navegación Moderna -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+        <!-- Logo con estilo moderno -->
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <span class="bg-primary p-2 rounded me-2">
+                <i class="fas fa-store-alt fa-lg text-white"></i>
+            </span>
+            <span class="fw-bold">BAZAR</span> <span class="text-primary fw-bold"> STORE</span>
+        </a>
+        
+        <!-- Botón hamburguesa para móviles -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Menú de navegación -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="#inicio">
+                        <i class="fas fa-home me-1 d-lg-none"></i> Inicio
+                        <span class="nav-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="#servicios">
+                        <i class="fas fa-concierge-bell me-1 d-lg-none"></i> Servicios
+                        <span class="nav-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="#categorias">
+                        <i class="fas fa-tags me-1 d-lg-none"></i> Categorías
+                        <span class="nav-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="#productos">
+                        <i class="fas fa-shopping-bag me-1 d-lg-none"></i> Productos
+                        <span class="nav-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="#opiniones">
+                        <i class="fas fa-star me-1 d-lg-none"></i> Opiniones
+                        <span class="nav-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="#contacto">
+                        <i class="fas fa-envelope me-1 d-lg-none"></i> Contacto
+                        <span class="nav-underline"></span>
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Botones adicionales (carrito y usuario) -->
+            <div class="d-flex ms-lg-3 mt-2 mt-lg-0">
+
+<!--
+                <a href="#" class="btn btn-sm btn-outline-light me-2 position-relative">
+                   
+
+                    <i class="fas fa-shopping-cart"></i>
+                  
+
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        3
+                    </span>
+
+
+                </a>
+-->
+
+                <a href="#" class="btn btn-sm btn-primary">
+                    <i class="fas fa-user me-1"></i> Admin-Panel Control
+                </a>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Sección Inicio -->
+<!-- Sección Inicio con Imagen de Fondo -->
+
+  
+
+
+
+
+ <main class="container my-5">
+        <div class="bg-white rounded-3 shadow-sm overflow-hidden">
+            <div class="row g-0">
+                <!-- Single Product Image -->
+                <div class="col-md-6">
+                    <div class="product-image-container ratio ratio-1x1">
+                        <img src="2.jpg" alt="Producto" class="product-image">
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="col-md-6 p-4 p-md-5">
+                    <div class="mb-4">
+                        <span class="text-primary small fw-semibold">Hogar</span>
+                        <h2 class="h1 fw-bold text-dark mt-2">Juego de Sábanas</h2>
+                        <div class="d-flex align-items-center mt-2">
+                            <div class="rating-star">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star"></i>
+                            </div>
+                            <span class="text-muted ms-2 small">(42 reseñas)</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <p class="text-muted">
+                          Juego de sábanas de algodón egipcio, tamaño queen.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="h2 fw-bold text-dark">$19999.99</span>
+                     
+                    </div>
+
+
+
+<!--
+                    <div class="mb-4">
+                        <h3 class="h6 fw-medium text-dark">Colores disponibles</h3>
+                        <div class="d-flex mt-2 gap-2">
+                            <button class="rounded-circle color-option bg-dark border-0 focus-ring focus-ring-primary"></button>
+                            <button class="rounded-circle color-option bg-primary border-0 focus-ring focus-ring-primary"></button>
+                            <button class="rounded-circle color-option bg-danger border-0 focus-ring focus-ring-primary"></button>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="h6 fw-medium text-dark">Almacenamiento</h3>
+                        <div class="d-flex mt-2 gap-2">
+                            <button class="btn btn-outline-secondary storage-option py-1 px-3">64GB</button>
+                            <button class="btn btn-primary storage-option py-1 px-3">128GB</button>
+                            <button class="btn btn-outline-secondary storage-option py-1 px-3">256GB</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="d-flex align-items-center quantity-selector border rounded-2">
+                            <button class="btn px-3 py-1 fs-5">-</button>
+                            <span class="px-3 py-1 border-start border-end">1</span>
+                            <button class="btn px-3 py-1 fs-5">+</button>
+                        </div>
+                        <span class="text-muted small ms-3">Disponibles: 12</span>
+                    </div>
+
+                    <div class="d-flex gap-3">
+                      
+
+                        <button class="btn btn-primary flex-grow-1 py-3 px-4 fw-medium">
+                            Añadir al carrito
+                        </button>
+                        <button class="btn btn-outline-secondary p-3">
+                            <i class="bi bi-heart fs-5"></i>
+                        </button>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+        <div class="bg-white rounded-3 shadow-sm mt-4 p-4 p-md-5">
+            <h3 class="h2 fw-semibold text-dark mb-4">Especificaciones técnicas</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="h5 fw-medium text-dark">Características principales</h4>
+                    <ul class="mt-3 text-muted list-unstyled">
+                        <li class="mb-2"><i class="bi bi-dot text-primary"></i> Pantalla AMOLED 6.5" Full HD+</li>
+                        <li class="mb-2"><i class="bi bi-dot text-primary"></i> Procesador Octa-core 2.8GHz</li>
+                        <li class="mb-2"><i class="bi bi-dot text-primary"></i> 128GB almacenamiento interno</li>
+                        <li class="mb-2"><i class="bi bi-dot text-primary"></i> 8GB RAM</li>
+                        <li class="mb-2"><i class="bi bi-dot text-primary"></i> Cámara triple: 48MP + 12MP + 5MP</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="h5 fw-medium text-dark">Detalles técnicos</h4>
+                    <table class="table mt-3 text-muted">
+                        <tbody>
+                            <tr>
+                                <td class="border-0 py-2 fw-medium">Sistema operativo</td>
+                                <td class="border-0 py-2">Android 12</td>
+                            </tr>
+                            <tr>
+                                <td class="border-0 py-2 fw-medium">Batería</td>
+                                <td class="border-0 py-2">5000mAh con carga rápida</td>
+                            </tr>
+                            <tr>
+                                <td class="border-0 py-2 fw-medium">Conectividad</td>
+                                <td class="border-0 py-2">5G, Wi-Fi 6, Bluetooth 5.2</td>
+                            </tr>
+                            <tr>
+                                <td class="border-0 py-2 fw-medium">Dimensiones</td>
+                                <td class="border-0 py-2">160.2 x 73.5 x 8.9 mm</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        -->
+    </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Sección Contacto -->
+    <section id="contacto" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="text-center mb-5">
+                        <h2 class="fw-bold">Contáctanos</h2>
+                        <p class="text-muted">Estamos aquí para ayudarte. Envíanos un mensaje.</p>
+                    </div>
+                    <form>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre completo</label>
+                            <input type="text" class="form-control" id="nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono (opcional)</label>
+                            <input type="tel" class="form-control" id="telefono">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mensaje" class="form-label">Mensaje</label>
+                            <textarea class="form-control" id="mensaje" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Enviar mensaje</button>
+                    </form>
+                </div>
+                <div class="col-lg-6">
+                    <div class="h-100 p-5 bg-light rounded">
+                        <h4 class="fw-bold mb-4">Información de contacto</h4>
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+                                <span>Calle Principal #123, Ciudad, País</span>
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-phone me-2 text-primary"></i>
+                                <span>+1 234 567 890</span>
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-envelope me-2 text-primary"></i>
+                                <span>info@gmail.com</span>
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-clock me-2 text-primary"></i>
+                                <span>Lunes a Viernes: 9:00 AM - 7:00 PM</span>
+                            </li>
+                        </ul>
+                        <hr class="my-4">
+                        <h5 class="fw-bold mb-3">Síguenos en redes sociales</h5>
+                        <div class="social-icons">
+                            <a href="#" class="text-decoration-none me-3">
+                                <i class="fab fa-facebook-f fa-lg"></i>
+                            </a>
+                            <a href="#" class="text-decoration-none me-3">
+                                <i class="fab fa-twitter fa-lg"></i>
+                            </a>
+                            <a href="#" class="text-decoration-none me-3">
+                                <i class="fab fa-instagram fa-lg"></i>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <i class="fab fa-whatsapp fa-lg"></i>
+                            </a>
+                        </div>
+                        <hr class="my-4">
+                        <div class="map-container">
+                            <iframe 
+  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3477.238367876719!2d-59.786542!3d-30.947772!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDU2JzUyLjAiUyA1OcKwNDcnMTEuNSJX!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" 
+  width="100%" 
+  height="200" 
+  style="border:0;" 
+  allowfullscreen="" 
+  loading="lazy">
+</iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="fw-bold mb-3">Bazar Store</h5>
+                    <p>Tu tienda de confianza para encontrar todo lo que necesitas en un solo lugar.</p>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-2">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-white me-2">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-white me-2">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-white">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="fw-bold mb-3">Enlaces</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#inicio" class="text-white text-decoration-none">Inicio</a></li>
+                        <li class="mb-2"><a href="#servicios" class="text-white text-decoration-none">Servicios</a></li>
+                        <li class="mb-2"><a href="#categorias" class="text-white text-decoration-none">Categorías</a></li>
+                        <li class="mb-2"><a href="#productos" class="text-white text-decoration-none">Productos</a></li>
+                        <li class="mb-2"><a href="#contacto" class="text-white text-decoration-none">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h5 class="fw-bold mb-3">Contacto</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>Calle Principal #123, Ciudad</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i>+1 234 567 890</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i>info@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="fw-bold mb-3">Boletín</h5>
+                    <p>Suscríbete para recibir ofertas exclusivas.</p>
+                    <form class="mb-3">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Tu correo" required>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr class="my-4">
+
+            <div class="row">
+                <div class="col-md-8 text-center text-md-start">
+
+        <p class="mb-0">&copy; 2025 Bazar Store. Web diseñado por: <a href="https://www.instagram.com/alfreinformatica" class="text-decoration-none me-3 ig">www.instagram.com/alfreinformatica</a></p>
+                </div>
+
+                <div class="col-md-4 text-center text-md-end">
+                    <p class="mb-0">
+                        <a href="#" class="text-white text-decoration-none me-3">Términos y condiciones</a>
+                        <a href="#" class="text-white text-decoration-none">Política de privacidad</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript personalizado -->
+    <script>
+	// Puedes añadir funcionalidades adicionales aquí
+    // Ejemplo: Cambiar clase activa en la navegación al hacer scroll
+/*
+document.addEventListener('DOMContentLoaded', function() {
+    // Cambiar clase activa al hacer scroll
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    window.addEventListener('scroll', function() {
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            
+            if (pageYOffset >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+    });
+    
+    // Efecto de cambio al hacer scroll
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+});
+*/
+
+
+// Optimización para dispositivos móviles
+document.addEventListener('DOMContentLoaded', function() {
+    // Cerrar menú al hacer clic en un enlace (solo mobile)
+    if (window.innerWidth < 992) {
+        const navLinks = document.querySelectorAll('.nav-link');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                    toggle: false
+                });
+                bsCollapse.hide();
+            });
+        });
+    }
+    
+    // Ajustar altura del hero en dispositivos móviles
+    function adjustHeroHeight() {
+        const heroSection = document.querySelector('.hero-section');
+        if (window.innerWidth <= 480) {
+            const windowHeight = window.innerHeight;
+            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+            heroSection.style.minHeight = `${windowHeight - navbarHeight}px`;
+        }
+    }
+    
+    // Ejecutar al cargar y al redimensionar
+    adjustHeroHeight();
+    window.addEventListener('resize', adjustHeroHeight);
+});
+
+
+
+
+
+
+
+
+
+
+    // Smooth scrolling para enlaces internos
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            window.scrollTo({
+                top: targetElement.offsetTop - 70,
+                behavior: 'smooth'
+            });
+        });
+    });
+
+	</script>
+</body>
+</html>
